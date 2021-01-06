@@ -1,0 +1,48 @@
+---
+- name: "INCLUDED | RedHat & CentOS playbook"
+  block:
+
+    - name: 'RHEL CENTOS | yum clean all'
+      command: yum clean all warn=no
+      register: yum_clean_resultat
+      when: pm_manage_yum_clean_all
+
+    # Necessary to get package-cleanup
+    - name: 'RHEL CENTOS | Ensure yum-utils is installed'
+      yum:
+        name: yum-utils
+        state: installed
+
+    - name: 'RHEL CENTOS | Remove old kernels'
+      command: package-cleanup --oldkernels --count={{ keep_kernels_count | default(2) }} -y
+      register: old_kernel_cleanup
+      when: ansible_distribution == "CentOS" and ansible_distribution_major_version < '8'
+
+    - name: 'RHEL CENTOS | Update rpm package with yum'
+      yum: name=* state=latest update_cache=yes
+      register: update_resultat
+      environment:
+        ACCEPT_EULA: 'y'
+
+  rescue:
+    - name: 'RHEL CENTOS | Print cleanup result'
+      debug: var=update_resultat
+      when: old_kernel_cleanup is defined and old_kernel_cleanup != ""
+
+    - name: 'RHEL CENTOS | Print update result'
+      debug: var=update_resultat
+      when: update_resultat is defined and update_resultat != ""
+
+    - name: 'RHEL CENTOS | Fail'
+      fail:
+        msg: "FAIL : something went wrong ..."
+
+    # We will play this tasks only if the PM is failed
+    - name: "LOG | Save date of last PM failed"
+      lineinfile:
+        path: "{{ pm_logpath }}"
+        line: "{{ pm_date }} failed"
+        state: present
+        create: true
+
+  become: true

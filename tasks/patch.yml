@@ -1,0 +1,9 @@
+---
+- name: "INCLUDE | Tasks depends on distribution"
+  debug:
+    var: ansible_distribution
+
+# When the target runs under CENTOS / REDHAT
+- name: "INCLUDE | CentOS & RedHat tasks"
+  include_tasks: "linux_tasks/redhat_centos.yml"
+  when: ansible_distribution in rhel_distribs

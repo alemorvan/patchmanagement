@@ -1,0 +1,12 @@
+---
+# Check if a custom tasks file exist for this hostname
+- name: "CHECK | Does {{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml playbook exist ?"
+  local_action: stat path="{{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
+  register: custom_after
+
+# Play this file's tasks if it exists
+- name: "INCLUDE | {{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml exists"
+  include_tasks: "{{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
+  when:
+    - custom_after is defined
+    - custom_after.stat.exists

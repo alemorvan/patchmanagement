@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Example assertion
+    assert:
+      that: true
+
+  - name: display multiple file contents
+    debug: var=item
+    with_file:
+      - /root/patchmanagement/patchmanagement_{{ lookup('pipe', 'date +%Y-%m-%d') }}.log
+      - /etc/ansible/facts.d/{{ pm_fact_name }}.fact
+      - "{{ pm_logpath }}"

@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  serial: 1
+  vars:
+    pm_before_update_tasks_file: custom_tasks/pm_before_update_tasks_file.yml
+    pm_after_update_tasks_file: custom_tasks/pm_after_update_tasks_file.yml
+  tasks:
+    - name: "Include patchmanagement"
+      include_role:
+        name: "patchmanagement"

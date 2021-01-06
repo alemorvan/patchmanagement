@@ -1,0 +1,21 @@
+---
+- name: "NOTES: Keep starting time"
+  set_fact:
+    pm_date: "{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M-%S') }}"
+
+- name: "NOTES: Set log path file"
+  set_fact:
+    pm_log_path: "/root/patchmanagement/patchmanagement_{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M-%S') }}.log"
+
+# We take some notes about the system before running the patchmanagement
+- name: "NOTES | Create /root/patchmanagement"
+  become: true
+  file:
+    path: /root/patchmanagement
+    state: directory
+
+- name: "NOTES | Take some notes on the system's state"
+  become: true
+  shell: ip a > {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ip r >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ps auxfww >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && mount >> {{ pm_log_path }}
+  ignore_errors: true
+  changed_when: false

@@ -1,0 +1,18 @@
+---
+# Will we restart the server after the PM ?
+pm_restart_after_update: true
+# Where to store the date of PM that are successfull
+pm_logpath: /etc/ansible/facts.d/PM.log
+# What is the fact name we want ?
+pm_fact_name: pm
+# Do we set an env variable with last_pm date ?
+pm_set_env_variable: true
+pm_env_file_path: /etc/profile.d/last_pm_date.sh
+# Launch a yum clean all before updating
+# You should set to false if, for example, you have ever download the RPMs
+pm_manage_yum_clean_all: true
+# Idem for apt
+pm_manage_apt_clean: true
+pm_manage_apt_autoremove: true
+# Print apt result
+pm_apt_verbose_package_list: false

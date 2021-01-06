@@ -1,0 +1,4 @@
+---
+- name: Play a custom tasks for this playbook define thanks to pm_before_update_tasks_file var.
+  debug:
+    msg: "This tasks is a custom tasks define in {{ pm_before_update_tasks_file }} file"

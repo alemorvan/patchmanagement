@@ -1,0 +1,6 @@
+---
+# vars file for patchmanagement
+rhel_distribs:
+  - RedHat
+  - Red Hat Enterprise Linux
+  - CentOS

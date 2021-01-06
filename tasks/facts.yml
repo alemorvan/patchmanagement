@@ -1,0 +1,52 @@
+---
+- name: "FACT | Create ansible config directory"
+  file:
+    path: "/etc/ansible/"
+    state: "directory"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  become_user: root
+
+- name: "FACT | Create custom fact directory"
+  file:
+    path: "/etc/ansible/facts.d"
+    state: "directory"
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+  become_user: root
+
+- name: "FACT | Insert fact file"
+  template:
+    src: templates/pm.fact.j2
+    dest: /etc/ansible/facts.d/{{ pm_fact_name }}.fact
+    mode: '0755'
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+# If we are still alive, PM can be considered as successfull
+- name: "LOG | Save date of last PM"
+  lineinfile:
+    path: "{{ pm_logpath }}"
+    line: "{{ pm_date }} success"
+    state: present
+    create: true
+  changed_when: false # For idempotence
+
+- name: "ENV VAR | Set ENV variable with last PM"
+  copy:
+    content: |
+      export LAST_PM={{ pm_date }}
+    dest: "{{ pm_env_file_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  become_user: root
+  when: pm_set_env_variable|bool
+  changed_when: false # For idempotence

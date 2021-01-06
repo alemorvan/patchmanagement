@@ -1,0 +1,13 @@
+#!{{ ansible_python.executable }}
+import json
+
+def render_data(data):
+    return json.dumps(data)
+
+data = {}
+with open("{{ pm_logpath }}", "r") as f:
+    for line in f.read().splitlines():
+        date, status = line.split(" ", 1)
+        data[date] = status
+
+print(render_data(data))
