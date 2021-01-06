@@ -2,6 +2,9 @@
 - name: "NOTES |Keep starting time"
   set_fact:
     pm_date: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+
+- name: "NOTES |Set log path"
+  set_fact:
     pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date }}.log"
 
 # We take some notes about the system before running the patchmanagement
