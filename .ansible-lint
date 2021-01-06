@@ -1,3 +1,22 @@
+---
+exclude_paths:
+  - ./.gitlab-ci.yml
+  - ./.pre-commit-config.yaml
+parseable: true
 skip_list:
   - '204'
-  - '106'
+  - '301'
+tags:
+  - behaviour
+  - bug
+  - deprecated
+  - formatting
+  - idempotency
+  - oddity
+  - readability
+  - repeatability
+  - resources
+  - safety
+use_default_rules: true
+verbosity: 1
+...

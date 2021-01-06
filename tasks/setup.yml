@@ -1,11 +1,8 @@
 ---
-- name: "NOTES: Keep starting time"
+- name: "NOTES |Keep starting time"
   set_fact:
-    pm_date: "{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M-%S') }}"
-
-- name: "NOTES: Set log path file"
-  set_fact:
-    pm_log_path: "/root/patchmanagement/patchmanagement_{{ lookup('pipe', 'date +%Y-%m-%d-%H-%M-%S') }}.log"
+    pm_date: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+    pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date }}.log"
 
 # We take some notes about the system before running the patchmanagement
 - name: "NOTES | Create /root/patchmanagement"
