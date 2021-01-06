@@ -1,20 +1,20 @@
 ---
-- name: "NOTES |Keep starting time"
+- name: "SETUP | Keep starting time"
   set_fact:
     pm_date: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
 
-- name: "NOTES |Set log path"
+- name: "SETUP | Set log path"
   set_fact:
     pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date }}.log"
 
 # We take some notes about the system before running the patchmanagement
-- name: "NOTES | Create /root/patchmanagement"
+- name: "SETUP | Create /root/patchmanagement"
   become: true
   file:
     path: /root/patchmanagement
     state: directory
 
-- name: "NOTES | Take some notes on the system's state"
+- name: "SETUP | Take some notes on the system's state"
   become: true
   shell: ip a > {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ip r >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ps auxfww >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && mount >> {{ pm_log_path }}
   ignore_errors: true

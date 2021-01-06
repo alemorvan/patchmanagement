@@ -47,7 +47,7 @@
         - update_resultat is defined
         - update_resultat | length
 
-    - name: "DEBIAN UBUNTU | Fail"
+    - name: "FAILED | Fail"
       fail:
         msg: "FAIL : something went wrong ..."
 

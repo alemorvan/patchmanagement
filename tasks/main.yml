@@ -1,38 +1,46 @@
 ---
 # tasks file for patchmanagement
-- name: "PLAY | Linux Patch Management Job"
+- name: "MAIN | Linux Patch Management Job"
   debug: msg="Start {{ inventory_hostname_short }} patch management"
 
-- name: Gather facts
+- name: "MAIN | Gather facts..."
   setup:
     gather_subset:
       - 'all'
 
 # Everything that should be done before modifying the system
-- include_tasks: setup.yml
+- name: "MAIN | Include setup tasks"
+  include_tasks: setup.yml
 
 # Everything you need to do before starting the PM
 # eg: sending a notification on mattermost, slack or any other system
-- include_tasks: "{{ pm_before_update_tasks_file | default('empty.yml') }}"
+- name: "MAIN | Include before update tasks file if defined"
+  include_tasks: "{{ pm_before_update_tasks_file | default('empty.yml') }}"
 
 # Everything to be done per computer basis
 # like stopping services, taking snapshots, etc.
-- include_tasks: check_pm_before_update_custom_tasks_file.yml
+- name: "MAIN | Include before update custom tasks file if defined"
+  include_tasks: check_pm_before_update_custom_tasks_file.yml
 
 # Now we do the main job
-- include_tasks: patch.yml
+- name: "MAIN | We can now patch"
+  include_tasks: patch.yml
 
 # Let's restart the server
-- include_tasks: reboot.yml
+- name: "MAIN | We can now reboot"
+  include_tasks: reboot.yml
   when: pm_restart_after_update|bool
 
 # And set some facts
-- include_tasks: facts.yml
+- name: "MAIN | Set some facts and vars"
+  include_tasks: facts.yml
 
 # Everything to be done per computer basis
 # like starting services, flushing caches, etc.
-- include_tasks: check_pm_after_update_custom_tasks_file.yml
+- name: "MAIN | Include after update tasks file if defined"
+  include_tasks: check_pm_after_update_custom_tasks_file.yml
 
 # Everything you need to do before starting the PM
-# eg: sending a notification on mattermost, slack or any other system
-- include_tasks: "{{ pm_after_update_tasks_file | default('empty.yml') }}"
+# eg: sending a notification on mattermost, slack or any other system*
+- name: "MAIN | Include after update custom tasks file if defined"
+  include_tasks: "{{ pm_after_update_tasks_file | default('empty.yml') }}"

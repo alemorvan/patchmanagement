@@ -38,7 +38,7 @@
         msg: "FAIL : something went wrong ..."
 
     # We will play this tasks only if the PM is failed
-    - name: "LOG | Save date of last PM failed"
+    - name: "FAILED | Save date of last PM failed"
       lineinfile:
         path: "{{ pm_logpath }}"
         line: "{{ pm_date }} failed"

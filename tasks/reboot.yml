@@ -11,6 +11,6 @@
   become_user: "root"
   tags: molecule-notest
 
-- name: "CHECK | Ensure we are not in rescue mode"
+- name: "REBOOT | Ensure we are not in rescue mode"
   wait_for_connection:
     timeout: 120
