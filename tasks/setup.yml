@@ -5,7 +5,7 @@
 
 - name: "SETUP | Set log path"
   set_fact:
-    pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date }}.log"
+    pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date|replace('/', '-') }}.log"
 
 # We take some notes about the system before running the patchmanagement
 - name: "SETUP | Create /root/patchmanagement"
