@@ -4,3 +4,6 @@ rhel_distribs:
   - RedHat
   - Red Hat Enterprise Linux
   - CentOS
+debian_distribs:
+  - Ubuntu
+  - Debian

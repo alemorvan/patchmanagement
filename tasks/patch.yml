@@ -7,3 +7,8 @@
 - name: "INCLUDE | CentOS & RedHat tasks"
   include_tasks: "linux_tasks/redhat_centos.yml"
   when: ansible_distribution in rhel_distribs
+
+# When the target runs under Debian / Ubuntu
+- name: "INCLUDE | Debian & Ubuntu tasks"
+  include_tasks: "linux_tasks/debian_ubuntu.yml"
+  when: ansible_distribution in debian_distribs
