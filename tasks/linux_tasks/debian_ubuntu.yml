@@ -1,6 +1,7 @@
 ---
 - name: "INCLUDED | Debian & Ubuntu playbook"
   block:
+
     # Fix: check if snmpd.pid exists
     - name: 'CHECK | does snmpd.pid exist?'
       stat:

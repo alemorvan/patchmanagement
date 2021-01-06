@@ -36,7 +36,7 @@
     line: "{{ pm_date }} success"
     state: present
     create: true
-  changed_when: false # For idempotence
+  changed_when: false  # For idempotence
   become: true
   become_user: root
 
@@ -51,4 +51,4 @@
   become: true
   become_user: root
   when: pm_set_env_variable|bool
-  changed_when: false # For idempotence
+  changed_when: false  # For idempotence

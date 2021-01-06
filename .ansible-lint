@@ -6,6 +6,7 @@ parseable: true
 skip_list:
   - '204'
   - '301'
+  - '403'  # Package installs should not use latest
 tags:
   - behaviour
   - bug

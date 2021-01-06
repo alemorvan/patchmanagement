@@ -1,7 +1,7 @@
 ---
 - name: "SETUP | Keep starting time"
   set_fact:
-    pm_date: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+    pm_date: "{{ pm_date_format }}"
 
 - name: "SETUP | Set log path"
   set_fact:

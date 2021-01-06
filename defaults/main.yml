@@ -5,6 +5,8 @@ pm_restart_after_update: true
 pm_logpath: /etc/ansible/facts.d/PM.log
 # What is the fact name we want ?
 pm_fact_name: pm
+# What is the date format ?
+pm_date_format: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
 # Do we set an env variable with last_pm date ?
 pm_set_env_variable: true
 pm_env_file_path: /etc/profile.d/last_pm_date.sh
