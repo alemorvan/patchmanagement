@@ -27,11 +27,11 @@
   rescue:
     - name: 'RHEL CENTOS | Print cleanup result'
       debug: var=update_resultat
-      when: old_kernel_cleanup is defined and old_kernel_cleanup != ""
+      when: old_kernel_cleanup is defined and old_kernel_cleanup | length
 
     - name: 'RHEL CENTOS | Print update result'
       debug: var=update_resultat
-      when: update_resultat is defined and update_resultat != ""
+      when: update_resultat is defined and update_resultat | length
 
     - name: 'RHEL CENTOS | Fail'
       fail:

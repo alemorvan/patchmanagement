@@ -1,8 +1,10 @@
 ---
 # Check if a custom tasks file exist for this hostname
 - name: "CHECK | Does {{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml file exist ?"
-  local_action: stat path="{{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
+  stat:
+    path: "{{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
   register: custom_before
+  delegate_to: localhost
 
 # Play this file's tasks if it exists
 - name: "INCLUDE | {{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml exists"

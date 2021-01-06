@@ -34,7 +34,7 @@
       debug: var=update_resultat.stdout_lines
       when:
         - update_resultat is defined
-        - update_resultat != ""
+        - update_resultat | length
         - pm_apt_verbose_package_list|bool
 
     - name: 'DEBIAN UBUNTU | apt-get autoremove'
@@ -45,7 +45,7 @@
       debug: var=update_resultat.stdout_lines
       when:
         - update_resultat is defined
-        - update_resultat != ""
+        - update_resultat | length
 
     - name: "DEBIAN UBUNTU | Fail"
       fail:
