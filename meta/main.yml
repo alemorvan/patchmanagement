@@ -28,17 +28,17 @@ galaxy_info:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
   platforms:
-  - name: CentOS
+  - name: EL
     versions:
     - 7
     - 8
   - name: Ubuntu
     versions:
-    - 18.4
-    - 20.4
+    - bionic
+    - focal
   - name: Debian
     versions:
-    - 8
+    - jessie
   #   - 25
   # - name: SomePlatform
   #   versions:
