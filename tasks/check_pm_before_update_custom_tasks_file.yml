@@ -5,10 +5,9 @@
     path: "{{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
   register: custom_before
   delegate_to: localhost
+  become: false
 
 # Play this file's tasks if it exists
 - name: "BEFORE UPDATE CUSTOM TASKS | {{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml exists"
   include_tasks: "{{ playbook_dir }}/custom_tasks/before_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
-  when:
-    - custom_before is defined
-    - custom_before.stat.exists
+  when: custom_before.stat.exists

@@ -6,7 +6,7 @@ pm_logpath: /etc/ansible/facts.d/PM.log
 # What is the fact name we want ?
 pm_fact_name: pm
 # What is the date format ?
-pm_date_format: "{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"
+pm_date_format: "{{ ansible_facts['date_time']['date'] }}-{{ ansible_facts['date_time']['time'] }}"
 # Do we set an env variable with last_pm date ?
 pm_set_env_variable: true
 pm_env_file_path: /etc/profile.d/last_pm_date.sh
@@ -18,3 +18,12 @@ pm_manage_apt_clean: true
 pm_manage_apt_autoremove: true
 # Print apt result
 pm_apt_verbose_package_list: false
+# Distributions handled by the RedHat/CentOS and Debian/Ubuntu task files
+rhel_distribs:
+  - RedHat
+  - Red Hat Enterprise Linux
+  - CentOS
+  - Rocky
+debian_distribs:
+  - Ubuntu
+  - Debian

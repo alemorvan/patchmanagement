@@ -3,9 +3,10 @@
   block:
 
     - name: 'RHEL CENTOS | yum clean all'
-      command: yum clean all warn=no
+      command: yum clean all
       register: yum_clean_resultat
       when: pm_manage_yum_clean_all
+      changed_when: false
 
     # Necessary to get package-cleanup
     - name: 'RHEL CENTOS | Ensure yum-utils is installed'
@@ -16,7 +17,7 @@
     - name: 'RHEL CENTOS | Remove old kernels'
       command: package-cleanup --oldkernels --count={{ keep_kernels_count | default(2) }} -y
       register: old_kernel_cleanup
-      when: ansible_distribution == "CentOS" and ansible_distribution_major_version < '8'
+      when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] | int < 8
 
     - name: 'RHEL CENTOS | Update rpm package with yum'
       yum: name=* state=latest update_cache=yes
@@ -27,15 +28,19 @@
   rescue:
     - name: 'RHEL CENTOS | Print cleanup result'
       debug: var=update_resultat
-      when: old_kernel_cleanup is defined and old_kernel_cleanup | length
+      when: old_kernel_cleanup is defined and old_kernel_cleanup | length > 0
 
     - name: 'RHEL CENTOS | Print update result'
       debug: var=update_resultat
-      when: update_resultat is defined and update_resultat | length
+      when: update_resultat is defined and update_resultat | length > 0
+
+    - name: 'RHEL CENTOS | Print failed task result'
+      debug:
+        var: ansible_failed_result
 
     - name: 'RHEL CENTOS | Fail'
       fail:
-        msg: "FAIL : something went wrong ..."
+        msg: "FAIL : task '{{ ansible_failed_task.name }}' failed : {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
 
     # We will play this tasks only if the PM is failed
     - name: "FAILED | Save date of last PM failed"

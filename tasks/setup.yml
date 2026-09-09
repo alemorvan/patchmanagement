@@ -3,9 +3,9 @@
   set_fact:
     pm_date: "{{ pm_date_format }}"
 
-- name: "SETUP | Set log path"
+- name: "SETUP | Set system notes path"
   set_fact:
-    pm_log_path: "/root/patchmanagement/patchmanagement_{{ pm_date|replace('/', '-') }}.log"
+    pm_notes_path: "/root/patchmanagement/patchmanagement_{{ pm_date|replace('/', '-') }}.log"
 
 # We take some notes about the system before running the patchmanagement
 - name: "SETUP | Create /root/patchmanagement"
@@ -16,6 +16,6 @@
 
 - name: "SETUP | Take some notes on the system's state"
   become: true
-  shell: ip a > {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ip r >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && ps auxfww >> {{ pm_log_path }} && echo "" >> {{ pm_log_path }} && mount >> {{ pm_log_path }}
+  shell: ip a > {{ pm_notes_path }} && echo "" >> {{ pm_notes_path }} && ip r >> {{ pm_notes_path }} && echo "" >> {{ pm_notes_path }} && ps auxfww >> {{ pm_notes_path }} && echo "" >> {{ pm_notes_path }} && mount >> {{ pm_notes_path }}
   ignore_errors: true
   changed_when: false

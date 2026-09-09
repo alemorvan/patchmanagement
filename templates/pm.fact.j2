@@ -1,4 +1,4 @@
-#!{{ ansible_python.executable }}
+#!{{ ansible_facts['python']['executable'] }}
 import json
 
 def render_data(data):

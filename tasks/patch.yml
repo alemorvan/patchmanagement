@@ -1,14 +1,20 @@
 ---
 - name: "PATCH | Tasks depends on distribution"
   debug:
-    var: ansible_distribution
+    var: ansible_facts['distribution']
 
 # When the target runs under CENTOS / REDHAT
 - name: "PATCH | Include tasks for CentOS & RedHat tasks"
   include_tasks: "linux_tasks/redhat_centos.yml"
-  when: ansible_distribution in rhel_distribs
+  when: ansible_facts['distribution'] in rhel_distribs
 
 # When the target runs under Debian / Ubuntu
 - name: "PATCH | Inlude tasks for Debian & Ubuntu tasks"
   include_tasks: "linux_tasks/debian_ubuntu.yml"
-  when: ansible_distribution in debian_distribs
+  when: ansible_facts['distribution'] in debian_distribs
+
+# Fail loudly rather than silently doing nothing on an unsupported OS
+- name: "PATCH | Fail on unsupported distribution"
+  fail:
+    msg: "Unsupported distribution '{{ ansible_facts['distribution'] }}' : not in rhel_distribs ({{ rhel_distribs }}) nor debian_distribs ({{ debian_distribs }})"
+  when: ansible_facts['distribution'] not in rhel_distribs and ansible_facts['distribution'] not in debian_distribs

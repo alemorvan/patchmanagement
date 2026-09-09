@@ -2,26 +2,10 @@
 - name: "INCLUDED | Debian & Ubuntu playbook"
   block:
 
-    # Fix: check if snmpd.pid exists
-    - name: 'CHECK | does snmpd.pid exist?'
-      stat:
-        path: /run/snmpd.pid
-      register: snmpdpid
-
-    - name: 'DEBIAN UBUNTU | fix wrong snmpd pid preventing snmpd from restarting'
-      file:
-        path: /run/snmpd.pid
-        state: absent
-      when: snmpdpid.stat.exists
-
-    - name: 'DEBIAN UBUNTU | recreate correct snmpd.pid'
-      shell: "pidof snmpd > /run/snmpd.pid"
-      ignore_errors: true
-      when: snmpdpid.stat.exists
-
     - name: 'DEBIAN UBUNTU | apt-get clean'
-      command: apt-get clean warn=no
+      command: apt-get clean
       when: pm_manage_apt_clean
+      changed_when: false
 
     - name: 'DEBIAN UBUNTU | apt-get autoremove'
       apt: autoremove=yes
@@ -35,21 +19,34 @@
       debug: var=update_resultat.stdout_lines
       when:
         - update_resultat is defined
-        - update_resultat | length
+        - update_resultat | length > 0
         - pm_apt_verbose_package_list|bool
 
     - name: 'DEBIAN UBUNTU | apt-get autoremove'
       apt: autoremove=yes
+      when: pm_manage_apt_autoremove
 
   rescue:
     - name: 'DEBIAN UBUNTU | Print update result'
       debug: var=update_resultat.stdout_lines
       when:
         - update_resultat is defined
-        - update_resultat | length
+        - update_resultat | length > 0
+
+    - name: "FAILED | Print failed task result"
+      debug:
+        var: ansible_failed_result
 
     - name: "FAILED | Fail"
       fail:
-        msg: "FAIL : something went wrong ..."
+        msg: "FAIL : task '{{ ansible_failed_task.name }}' failed : {{ ansible_failed_result.msg | default(ansible_failed_result) }}"
+
+    # We will play this tasks only if the PM is failed
+    - name: "FAILED | Save date of last PM failed"
+      lineinfile:
+        path: "{{ pm_logpath }}"
+        line: "{{ pm_date }} failed"
+        state: present
+        create: true
 
   become: true

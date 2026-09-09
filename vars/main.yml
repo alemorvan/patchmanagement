@@ -1,10 +1,2 @@
 ---
 # vars file for patchmanagement
-rhel_distribs:
-  - RedHat
-  - Red Hat Enterprise Linux
-  - CentOS
-  - Rocky
-debian_distribs:
-  - Ubuntu
-  - Debian

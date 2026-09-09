@@ -7,6 +7,7 @@
   setup:
     gather_subset:
       - 'all'
+  when: ansible_facts['distribution'] is not defined
 
 # Everything that should be done before modifying the system
 - name: "MAIN | Include setup tasks"

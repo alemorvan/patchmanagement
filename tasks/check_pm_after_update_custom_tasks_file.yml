@@ -5,10 +5,9 @@
     path: "{{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
   register: custom_after
   delegate_to: localhost
+  become: false
 
 # Play this file's tasks if it exists
 - name: "AFTER UPDATE CUSTOM TASKS | {{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml exists"
   include_tasks: "{{ playbook_dir }}/custom_tasks/after_pm_{{ inventory_hostname_short }}_custom_tasks.yml"
-  when:
-    - custom_after is defined
-    - custom_after.stat.exists
+  when: custom_after.stat.exists

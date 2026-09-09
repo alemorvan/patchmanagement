@@ -46,7 +46,7 @@ Will the target restart after the PM. This ensure the last kernel is running and
 
 Where to store the date of PM that are successfull or failed.
 
-* `pm_date_format`: default `"{{ ansible_date_time.date }}-{{ ansible_date_time.time }}"`
+* `pm_date_format`: default `"{{ ansible_facts['date_time']['date'] }}-{{ ansible_facts['date_time']['time'] }}"`
 
 How to format the date in fact and log path ?
 
